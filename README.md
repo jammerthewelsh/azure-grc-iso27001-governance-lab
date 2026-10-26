@@ -31,12 +31,12 @@ A dedicated Resource Group (`rg-grc-iso27001-uks-01`) was provisioned in **UK So
 * `ComplianceFramework` : `ISO27001` (Identifies the regulatory baseline governing the scope)
 * `Owner` : `GRC-Team` (Establishes clear accountability for incident escalation and FinOps cost management)
 
-![Resource Group Tagging and FinOps Governance](01-resource-group-tagging.png)
+![Resource Group Tagging and FinOps Governance](01-resource-group-tagging.png.png)
 
 ---
 
 ### Phase 2: Preventative Control — Enforcing UK Data Sovereignty (`Deny`)
-**The Why:** An detective alert telling a security team that sensitive UK customer data was deployed to a US server *after* the fact still constitutes a reportable data residency breach. Binary compliance mandates like data sovereignty require a **Preventative Control** that makes non-compliant deployment technically impossible.
+**The Why:** A detective alert telling a security team that sensitive UK customer data was deployed to a US server *after* the fact still constitutes a reportable data residency breach. Binary compliance mandates like data sovereignty require a **Preventative Control** that makes non-compliant deployment technically impossible.
 
 **The How:** An `Allowed Locations` Azure Policy definition was assigned to the subscription with the enforcement effect set to `Deny`, restricting permitted deployment regions strictly to **UK South** and **UK West**, accompanied by a custom GRC violation message to educate users at the point of failure.
 
@@ -45,7 +45,7 @@ During initial validation testing, a test storage account deployed to `(US) East
 
 After removing the Resource Group from the Exclusion block and forcing a policy state evaluation, we attempted to deploy a storage account (`stgrcfinalblock01`) into `(US) East US`. As demonstrated below, the Azure Resource Manager control plane intercepted the request during validation and blocked creation immediately:
 
-![Preventative Control Blocking Non-UK Deployment](02-preventative-deny-block.png)
+![Preventative Control Blocking Non-UK Deployment](02-preventative-deny-block.png.png)
 
 ---
 
@@ -59,7 +59,7 @@ To test the detective engine, we deployed a storage account (`stgrcauditfail01`)
 
 Once the Azure Policy evaluation cycle completed, the **Policy Overview Dashboard** immediately reflected the compliance state across the subscription—showing **17 non-compliant policy findings** out of 147 total evaluated policies and dropping overall resource compliance to **0%**:
 
-![Azure Policy Overview Dashboard](03-policy-overview-dashboard.png)
+![Azure Policy Overview Dashboard](03-policy-overview-dashboard.png.png)
 
 Drilling down into the **GRC-Audit-Framework-ISO27001-2022 Initiative Compliance** blade provides granular, auditor-ready evidence. The engine pinpointed **9 non-compliant ISO 27001 control domains** (out of 23) triggered by our unhardened storage account, specifically flagging failures across:
 * **Protection against malware** (7 non-compliant policies — Identifying, Protection, Preventive Control)
@@ -67,7 +67,7 @@ Drilling down into the **GRC-Audit-Framework-ISO27001-2022 Initiative Compliance
 * **Monitoring activities** (5 non-compliant policies — Response, Detection, Corrective Control)
 * **Capacity management** (2 non-compliant policies — Identifying, Protection, Detection, Preventive Control)
 
-![ISO 27001 Detective Audit Breakdown](04-iso27001-detective-audit.png)
+![ISO 27001 Detective Audit Breakdown](04-iso27001-detective-audit.png.png)
 
 This view enables a GRC Analyst or Security Specialist to export direct CSV audit evidence (`Export to CSV`) or trigger automated `DeployIfNotExists` / `Modify` remediation tasks to close audit findings ahead of external certification assessments.
 
